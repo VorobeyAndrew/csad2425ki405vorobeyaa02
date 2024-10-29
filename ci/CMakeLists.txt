@@ -1,0 +1,29 @@
+# Мінімальна версія CMake
+cmake_minimum_required(VERSION 3.10)
+
+# Назва проекту
+project(Client)
+
+# Встановлюємо стандарт C++
+set(CMAKE_CXX_STANDARD 17)
+
+# Додаємо виконуваний файл для клієнта
+add_executable(Client ../src/Client/Client/Client/main.cpp)
+
+# Змінні для Arduino
+set(ARDUINO_CLI "arduino-cli")
+set(ARDUINO_BOARD "arduino:avr:nano")
+set(ARDUINO_PORT "COM6")
+set(ARDUINO_SRC "../src/Server/Server.ino")
+
+# Компіляція серверного коду для Arduino
+add_custom_target(compile_server ALL
+    COMMAND ${ARDUINO_CLI} compile --fqbn ${ARDUINO_BOARD} ${ARDUINO_SRC}
+    COMMENT "Compiling Arduino server..."
+)
+
+# Додаємо залежність компіляції Arduino до клієнта
+add_dependencies(Client compile_server)
+
+# Очищення зібраних файлів
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_BINARY_DIR}/Client;${ARDUINO_SRC}")
