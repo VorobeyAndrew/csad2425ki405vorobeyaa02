@@ -28,14 +28,14 @@ jobs:
         run: arduino-cli core install arduino:avr
 
       - name: Config CMake
-        run: cmake -S . -B build
+        run: cmake -S ci -B build
         shell: cmd
 
       - name: Build with CMake
         run: cmake --build build
         shell: cmd
       
-      - name: Download build artefacts
+      - name: Download build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
