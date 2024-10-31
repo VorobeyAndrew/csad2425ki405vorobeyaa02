@@ -8,7 +8,7 @@ project(Client)
 set(CMAKE_CXX_STANDARD 17)
 
 # Додаємо виконуваний файл для клієнта
-add_executable(Client ../src/Client/Client/Client/main.cpp)
+add_executable(Client ../src/Client/main.cpp)
 
 # Змінні для Arduino
 set(ARDUINO_CLI "arduino-cli")

@@ -1,6 +1,6 @@
 @echo off
 
-set CLIENT_PATH="%~dp0..\src\Client\Client\Client\main.cpp"
+set CLIENT_PATH="%~dp0..\src\Client\main.cpp"
 set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
