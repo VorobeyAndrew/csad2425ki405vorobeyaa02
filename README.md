@@ -41,4 +41,4 @@ Play modes:
 3) **Config format:** JSON
 
 # Technical details:
-In this project i'm going to use Qt&C++. As for the HW I'm going to use CY8CKIT-042 PSoC® 4 Pioneer Kit.
+In this project i'm going to use Qt&C++. As for the HW I'm going to use Arduino NANO v3.
