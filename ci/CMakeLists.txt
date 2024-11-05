@@ -7,8 +7,11 @@ project(Client)
 # Встановлюємо стандарт C++
 set(CMAKE_CXX_STANDARD 17)
 
+include_directories(${CMAKE_SOURCE_DIR}/../src/Client)
+
 # Додаємо виконуваний файл для клієнта
-add_executable(Client ../src/Client/main.cpp)
+add_executable(Client ${CMAKE_SOURCE_DIR}/../src/Client/ClientCommunication.cpp 
+    ${CMAKE_SOURCE_DIR}/../src/Client/main.cpp)
 
 # Змінні для Arduino
 set(ARDUINO_CLI "arduino-cli")

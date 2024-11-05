@@ -1,6 +1,6 @@
 @echo off
 
-set CLIENT_PATH="%~dp0..\src\Client\main.cpp"
+set CLIENT_PATH="%~dp0..\src\Client"
 set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
@@ -41,7 +41,7 @@ if not exist %BUILD_DIR% (
     echo [INFO] Build directory created: %BUILD_DIR%
 )
 
-g++ %CLIENT_PATH% -o %BUILD_DIR%\Client.exe
+g++ %CLIENT_PATH%\* -o %BUILD_DIR%\Client.exe -lole32
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to compile client code.
     pause
