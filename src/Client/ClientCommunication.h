@@ -5,8 +5,10 @@ class ClientCommunication {
 private:
     HANDLE hSerial;
     std::wstring portName;
+    
+    std::wstring readArduinoCOMPort(const std::wstring& configFile);
 public:
-    ClientCommunication(const std::wstring& portName);
+    ClientCommunication();
     ~ClientCommunication();
 
     void sendMessage(const std::string& message);

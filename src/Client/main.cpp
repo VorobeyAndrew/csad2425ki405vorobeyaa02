@@ -1,11 +1,12 @@
 #include "ClientCommunication.h"
 #include "HelperUtils.h"
 #include <iostream>
+#include <string>
 
+int main() 
+{
+    ClientCommunication clientcommunication;
 
-int main() {
-    // Initialize ClientCommunication with COM port
-    ClientCommunication clientcommunication(L"COM6");
 
     std::string message;
     std::string gamemode;

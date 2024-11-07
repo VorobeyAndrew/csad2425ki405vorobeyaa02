@@ -1,0 +1,28 @@
+# Ignore build outputs
+bin/
+obj/
+build/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.rsuser
+
+# Visual Studio specific directories
+.vs/
+
+# NuGet packages
+packages/
+*.nupkg
+*.snupkg
+
+# Logs and debug files
+*.log
+*.tlog
+*.pdb
+
+# Ignore build results for specific architectures
+x64/
+x86/
+ARM/
+ARM64/

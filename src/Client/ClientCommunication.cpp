@@ -1,9 +1,13 @@
 #include "ClientCommunication.h"
 #include <iostream>
+#include <fstream>
+#include "../third_party/include/nlohmann/json.hpp"
+#include "HelperUtils.h"
 
 // Constructor
-ClientCommunication::ClientCommunication(const std::wstring& portName) {
-    this->portName = portName;
+ClientCommunication::ClientCommunication() 
+{
+    portName = readArduinoCOMPort(L"../config/ConfigFile.json");
     hSerial = setupSerial(portName);
     if (hSerial == INVALID_HANDLE_VALUE) {
         std::cerr << "[ERROR] Failed to initialize serial communication." << std::endl;
@@ -11,64 +15,101 @@ ClientCommunication::ClientCommunication(const std::wstring& portName) {
 }
 
 // Destructor
-ClientCommunication::~ClientCommunication() {
+ClientCommunication::~ClientCommunication() 
+{
     if (hSerial != INVALID_HANDLE_VALUE) {
         CloseHandle(hSerial);
     }
 }
 
-// Method to send message
-void ClientCommunication::sendMessage(const std::string& message) {
-    DWORD bytesSent;
-    if (!WriteFile(hSerial, message.c_str(), message.size(), &bytesSent, NULL)) {
-        std::cerr << "[ERROR] Failed to send message.\n";
+// Method to send a message
+void ClientCommunication::sendMessage(const std::string& message) 
+{
+    DWORD bytesWritten;
+    BOOL writeSuccess = WriteFile(hSerial, message.c_str(), message.size(), &bytesWritten, nullptr);
+    if (!writeSuccess) {
+        std::cerr << "[ERROR] Failed to send message. Error code: " << GetLastError() << std::endl;
     }
     else {
-        std::cout << "[INFO] Message sent to Arduino: " << message << std::endl;
+        std::cout << "[INFO] Message sent: " << message << std::endl;
     }
+
 }
 
-// Method to receive message
-std::string ClientCommunication::receiveMessage() {
-    char buffer[128];
+// Method to receive a message
+std::string ClientCommunication::receiveMessage() 
+{
+    char buffer[256];
     DWORD bytesRead;
-    if (!ReadFile(hSerial, buffer, sizeof(buffer), &bytesRead, NULL)) {
-        std::cerr << "[ERROR] Failed to read from Arduino.\n";
+    if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, nullptr)) {
+        buffer[bytesRead] = '\0';  // Завершуємо рядок нульовим символом
+        std::cout << "[INFO] Received message: " << std::endl << buffer << std::endl;
+        return std::string(buffer);
+    }
+    else {
+        std::cerr << "[ERROR] Failed to read from serial port. Error code: " << GetLastError() << std::endl;
         return "";
     }
-    std::string received(buffer, bytesRead);
-    std::cout << "[INFO] Message received from Arduino: " << std::endl << received << std::endl;
-    return received;
 }
 
-// Method to set up serial connection
-HANDLE ClientCommunication::setupSerial(const std::wstring& portName) {
-    HANDLE hSerial = CreateFileW(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+// Setup the serial port
+HANDLE ClientCommunication::setupSerial(const std::wstring& portName) 
+{
+    hSerial = CreateFileW(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (hSerial == INVALID_HANDLE_VALUE) {
-        std::cerr << "[ERROR] Failed to open COM port.\n";
         return INVALID_HANDLE_VALUE;
     }
 
     DCB dcbSerialParams = { 0 };
-    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
     if (!GetCommState(hSerial, &dcbSerialParams)) {
-        std::cerr << "[ERROR] Failed to get COM port state.\n";
         return INVALID_HANDLE_VALUE;
     }
 
-    dcbSerialParams.BaudRate = CBR_9600;
+    dcbSerialParams.BaudRate = 9600;
     dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity = NOPARITY;
+    dcbSerialParams.StopBits = 1;
+    dcbSerialParams.Parity = 0;
 
     if (!SetCommState(hSerial, &dcbSerialParams)) {
-        std::cerr << "[ERROR] Failed to set COM port state.\n";
         return INVALID_HANDLE_VALUE;
     }
 
     return hSerial;
 }
 
-HANDLE ClientCommunication::GethSerial() {
+// Method to get hSerial handle
+HANDLE ClientCommunication::GethSerial() 
+{
     return hSerial;
 }
+
+// Method to read ArduinoCOMPort from a JSON file
+std::wstring ClientCommunication::readArduinoCOMPort(const std::wstring& configFile) 
+{
+    std::wstring ArduinoPortName;
+
+    try {
+        // Convert wstring to const char* using wstring::c_str() for the file path
+        std::ifstream file(std::string(configFile.begin(), configFile.end()));  // Open file as regular stream
+        if (!file.is_open()) {
+            throw std::runtime_error("Failed to open the config file.");
+        }
+
+        nlohmann::json jsonData;
+        file >> jsonData;  // Deserialize JSON data
+
+        // Read ArduinoCOMPort from JSON
+        std::string comPort = jsonData["ArduinoSettings"]["COMPort"];
+        ArduinoPortName = std::wstring(comPort.begin(), comPort.end()); // Convert to wstring
+
+        // Output the COM port to verify
+        std::wcout << L"[INFO] Arduino COM Port: " << ArduinoPortName << std::endl;
+        return ArduinoPortName;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "[ERROR] Failed to read COM port from JSON: " << e.what() << std::endl;
+    }
+    return nullptr;
+}
+
+
