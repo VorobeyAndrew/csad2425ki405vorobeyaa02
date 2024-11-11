@@ -8,7 +8,7 @@ project(Client)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(${CMAKE_SOURCE_DIR}/../src/Client
-${CMAKE_SOURCE_DIR}/../src/third_party/include/nlohmann)
+${CMAKE_SOURCE_DIR}/../src/third_party/include)
 
 # Додаємо виконуваний файл для клієнта
 add_executable(Client ${CMAKE_SOURCE_DIR}/../src/Client/ClientCommunication.cpp 
