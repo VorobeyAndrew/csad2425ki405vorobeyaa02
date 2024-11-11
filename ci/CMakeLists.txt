@@ -30,3 +30,15 @@ add_dependencies(Client compile_server)
 
 # Очищення зібраних файлів
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_BINARY_DIR}/Client;${ARDUINO_SRC}")
+
+# Додаємо C# проект
+set(CSHARP_SOLUTION "${CMAKE_SOURCE_DIR}/../src/AutoDetectCOMPort/AutoDetectCOMPort.sln")
+
+# Використовуємо dotnet build для збірки C# проекту
+add_custom_target(AutoDetectCOMPort ALL
+    COMMAND dotnet build ${CSHARP_SOLUTION} --configuration Release
+    COMMENT "Building C# AutoDetectCOMPort project with dotnet..."
+)
+
+# Додаємо залежність C++ клієнта від збірки C# проекту
+add_dependencies(Client AutoDetectCOMPort)

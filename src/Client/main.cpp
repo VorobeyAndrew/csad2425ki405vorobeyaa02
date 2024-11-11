@@ -2,11 +2,11 @@
 #include "HelperUtils.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
 int main() 
 {
     ClientCommunication clientcommunication;
-
 
     std::string message;
     std::string gamemode;
@@ -27,7 +27,21 @@ int main()
             message = gamemode + player1move;
 
             clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
-            clientcommunication.receiveMessage();
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
         }
         else if (gamemode == "2") {
             std::cout << "Player 1 make your move (r - rock, p - paper, s - scissors): ";
@@ -41,12 +55,40 @@ int main()
 
             
             clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
-            clientcommunication.receiveMessage();
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
         }
         else if (gamemode == "3") {
             message = gamemode;
             clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
-            clientcommunication.receiveMessage();
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
         }
         else {
             std::cout << "Invalid gamemode!" << std::endl;
@@ -54,7 +96,15 @@ int main()
 
         while (true)
         {
-            std::cout << "New game(Y/n): ";
+            std::cout << "New game(";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_GREEN);
+            std::cout << "Y";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+            std::cout << "/";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_RED);
+            std::cout << "n";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+            std::cout << "):";
             std::getline(std::cin, isNewGame);
             HelperUtils::toLowerCase(isNewGame);
 

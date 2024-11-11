@@ -2,7 +2,7 @@
 bin/
 obj/
 build/
-
+CMakeFiles/
 # Ignore user-specific files
 *.user
 *.suo

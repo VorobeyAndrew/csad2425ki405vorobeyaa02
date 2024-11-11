@@ -27,6 +27,11 @@ jobs:
       - name: Download platform Arduino AVR
         run: arduino-cli core install arduino:avr
 
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+
       - name: Config CMake
         run: cmake -S ci -B build
         shell: cmd

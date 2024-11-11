@@ -73,8 +73,10 @@ char RandomChoice()
 
 void CheckWinCondition(char player1move, char player2move) 
 {
-  Serial.println("Player 1 move: " + String(player1move));
-  Serial.println("Player 2 move: " + String(player2move));
+  //Serial.println("Player 1 move: " + String(player1move));
+  //Serial.println("Player 2 move: " + String(player2move));
+
+  Serial.println(String(player1move) + String(player2move));
 
   if (player1move == 'r') 
   {

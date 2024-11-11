@@ -1,7 +1,9 @@
 #include <string>
 #include <windows.h>
+#include <vector>
 
-class ClientCommunication {
+class ClientCommunication 
+{
 private:
     HANDLE hSerial;
     std::wstring portName;
@@ -12,7 +14,7 @@ public:
     ~ClientCommunication();
 
     void sendMessage(const std::string& message);
-    std::string receiveMessage();
+    std::vector<std::string> receiveMessage();
     HANDLE setupSerial(const std::wstring& portName);
 
     HANDLE GethSerial();
