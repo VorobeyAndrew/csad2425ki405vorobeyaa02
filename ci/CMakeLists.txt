@@ -7,7 +7,8 @@ project(Client)
 # Встановлюємо стандарт C++
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(${CMAKE_SOURCE_DIR}/../src/Client)
+include_directories(${CMAKE_SOURCE_DIR}/../src/Client
+${CMAKE_SOURCE_DIR}/../src/third_party/include/nlohmann)
 
 # Додаємо виконуваний файл для клієнта
 add_executable(Client ${CMAKE_SOURCE_DIR}/../src/Client/ClientCommunication.cpp 
