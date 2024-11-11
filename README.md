@@ -41,4 +41,4 @@ Play modes:
 3) **Config format:** JSON
 
 # Technical details:
-In this project i'm going to use Qt&C++. As for the HW I'm going to use Arduino NANO v3.
+In this project i'm going to use C++&C#. As for the HW I'm going to use Arduino NANO v3.
