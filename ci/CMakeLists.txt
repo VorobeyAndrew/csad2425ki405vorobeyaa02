@@ -12,7 +12,8 @@ ${CMAKE_SOURCE_DIR}/../src/third_party/include)
 
 # Додаємо виконуваний файл для клієнта
 add_executable(Client ${CMAKE_SOURCE_DIR}/../src/Client/ClientCommunication.cpp 
-    ${CMAKE_SOURCE_DIR}/../src/Client/main.cpp)
+    ${CMAKE_SOURCE_DIR}/../src/Client/main.cpp
+    ${CMAKE_SOURCE_DIR}/../src/Client/HelperUtils.cpp)
 
 # Змінні для Arduino
 set(ARDUINO_CLI "arduino-cli")
