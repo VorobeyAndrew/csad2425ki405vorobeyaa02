@@ -1,70 +1,123 @@
-#include <string>
-#include <windows.h>
+#include "ClientCommunication.h"
+#include "HelperUtils.h"
 #include <iostream>
+#include <string>
+#include <vector>
 
-void sendMessage(const std::string& message, HANDLE& hSerial) {
-    DWORD bytesSent;
-    if (!WriteFile(hSerial, message.c_str(), message.size(), &bytesSent, NULL)) {
-        std::cerr << "[ERROR] Failed to send message.\n";
-    }
-    else {
-        std::cout << "[INFO] Message sent to Arduino: " << message << std::endl;
-    }
-}
-
-std::string receiveMessage(HANDLE& hSerial) {
-    char buffer[128];
-    DWORD bytesRead;
-    if (!ReadFile(hSerial, buffer, sizeof(buffer), &bytesRead, NULL)) {
-        std::cerr << "[ERROR] Failed to read from Arduino.\n";
-        return "";
-    }
-    std::string received(buffer, bytesRead);
-    std::cout << "[INFO] Message received from Arduino: " << received << std::endl;
-    return received;
-}
-
-HANDLE setupSerial(const std::wstring& portName) {
-    HANDLE hSerial = CreateFileW(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hSerial == INVALID_HANDLE_VALUE) {
-        std::cerr << "[ERROR] Failed to open COM port.\n";
-        return INVALID_HANDLE_VALUE;
-    }
-
-    DCB dcbSerialParams = { 0 };
-    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
-    if (!GetCommState(hSerial, &dcbSerialParams)) {
-        std::cerr << "[ERROR] Failed to get COM port state.\n";
-        return INVALID_HANDLE_VALUE;
-    }
-
-    dcbSerialParams.BaudRate = CBR_9600;
-    dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity = NOPARITY;
-
-    if (!SetCommState(hSerial, &dcbSerialParams)) {
-        std::cerr << "[ERROR] Failed to set COM port state.\n";
-        return INVALID_HANDLE_VALUE;
-    }
-
-    return hSerial;
-}
-
-int main() {
-    HANDLE hSerial = setupSerial(L"COM6");
-    if (hSerial == INVALID_HANDLE_VALUE) {
-        return 1;
-    }
+int main() 
+{
+    ClientCommunication clientcommunication;
 
     std::string message;
-    std::cout << "Enter your message: ";
-    std::getline(std::cin, message);
+    std::string gamemode;
+    std::string player1move;
+    std::string player2move;
+    std::string isNewGame;
 
-    sendMessage(message, hSerial);
-    receiveMessage(hSerial);
+    do
+    {
+        std::cout << "Choose gamemode (1 - Man Vs AI, 2 - Man Vs Man, 3 - AI Vs AI): ";
+        std::getline(std::cin, gamemode);
 
-    CloseHandle(hSerial);
-    system("pause");
+        system("cls");
+
+        if (gamemode == "1") {
+            std::cout << "Make your move (r - rock, p - paper, s - scissors): ";
+            std::getline(std::cin, player1move);
+            message = gamemode + player1move;
+
+            clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+        }
+        else if (gamemode == "2") {
+            std::cout << "Player 1 make your move (r - rock, p - paper, s - scissors): ";
+            std::getline(std::cin, player1move);
+
+            system("cls");
+
+            std::cout << "Player 2 make your move (r - rock, p - paper, s - scissors): ";
+            std::getline(std::cin, player2move);
+            message = gamemode + player1move + player2move;
+
+            
+            clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+        }
+        else if (gamemode == "3") {
+            message = gamemode;
+            clientcommunication.sendMessage(HelperUtils::toLowerCase(message));
+
+            std::vector<std::string> receivedMessage = clientcommunication.receiveMessage();
+            std::cout << "Player 1 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[0] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            std::cout << "Player 2 move: ";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_YELLOW);
+            std::cout << receivedMessage[1] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_GREEN);
+            std::cout << receivedMessage[2] << std::endl;
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+        }
+        else {
+            std::cout << "Invalid gamemode!" << std::endl;
+        }
+
+        while (true)
+        {
+            std::cout << "New game(";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_GREEN);
+            std::cout << "Y";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+            std::cout << "/";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_RED);
+            std::cout << "n";
+            HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
+            std::cout << "):";
+            std::getline(std::cin, isNewGame);
+            HelperUtils::toLowerCase(isNewGame);
+
+            if (isNewGame == "n" || isNewGame == "y") break;
+
+            else std::cout << "Invalid option!" << std::endl;
+        }
+
+        if (isNewGame == "n") break;
+        else system("cls");
+        
+
+    } while (true);
+
     return 0;
 }

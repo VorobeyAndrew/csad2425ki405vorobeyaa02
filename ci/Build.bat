@@ -1,6 +1,6 @@
 @echo off
 
-set CLIENT_PATH="%~dp0..\src\Client\main.cpp"
+set CLIENT_PATH="%~dp0..\src\Client"
 set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
@@ -26,8 +26,37 @@ if not exist arduino-cli.exe (
 ) else (
     echo [INFO] Arduino CLI found.
 )
+echo ===================================
+
+echo [INFO] Compiling AutoDetectCOMPort code...
+if not exist "..\src\AutoDetectCOMPort" (
+    echo [ERROR] AutoDetectCOMPort .sln file not found: "..\src\AutoDetectCOMPort"
+    pause
+    exit /b 1
+)
+
+dotnet build ..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln -c Release
+
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to compile client code.
+    pause
+    exit /b %errorlevel%
+)
+echo [INFO] AutoDetectCOMPort compiled successfully.
 
 echo ===================================
+
+echo [INFO] Launch AutoDetectCOMPort.exe.
+"..\src\AutoDetectCOMPort\AutoDetectCOMPort\bin\Release\net8.0\AutoDetectCOMPort.exe"
+IF not %ERRORLEVEL% EQU 0 (
+    echo [ERROR] File AutoDetectCOMPort.exe failed executed.
+    pause
+    exit /b 1
+)
+echo [INFO] File AutoDetectCOMPort.exe executed successfully.
+
+echo ===================================
+
 echo [INFO] Compiling client code...
 if not exist %CLIENT_PATH% (
     echo [ERROR] Client source file not found: %CLIENT_PATH%
@@ -41,7 +70,7 @@ if not exist %BUILD_DIR% (
     echo [INFO] Build directory created: %BUILD_DIR%
 )
 
-g++ %CLIENT_PATH% -o %BUILD_DIR%\Client.exe
+g++ -I"..\src\third_party\include" %CLIENT_PATH%\* -o %BUILD_DIR%\Client.exe -lole32
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to compile client code.
     pause
