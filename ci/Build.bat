@@ -96,7 +96,7 @@ if not exist %BUILD_DIR% (
     echo [INFO] Build directory created: %BUILD_DIR%
 )
 
-g++ -I"..\src\third_party\include" %CLIENT_PATH%\* -o %BUILD_DIR%\Client.exe -lole32
+g++ -I"%~dp0..\src\third_party\include" %CLIENT_PATH%\* -o %BUILD_DIR%\Client.exe -lole32
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to compile client code.
     pause
