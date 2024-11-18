@@ -16,18 +16,7 @@ if "%IS_GITHUB_ACTION%"=="true" (
     set IS_LOCAL=true
 )
 
-:: Якщо локально, перевіряємо підключення Arduino до порту
-if "%IS_LOCAL%"=="true" (
-    echo [INFO] Checking if Arduino is connected to port %SERVER_PORT%...
 
-    for /f "tokens=*" %%i in ('arduino-cli.exe board list') do (
-        echo %%i | find /i "%SERVER_PORT%" >nul
-        if %errorlevel% equ 0 (
-            echo [INFO] Arduino detected on %SERVER_PORT%.
-            set IS_LOCAL=true
-        )
-    )
-)
 
 :: Якщо локально, завантажуємо Arduino CLI, інакше пропускаємо цей крок
 if "%IS_LOCAL%"=="true" (
