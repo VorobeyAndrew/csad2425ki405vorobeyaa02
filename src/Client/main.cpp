@@ -6,7 +6,12 @@
 
 int main() 
 {
-    ClientCommunication clientcommunication;
+    std::cout << "Enter BaudRate: ";
+    int BaudRate = 9600;
+    std::cin >> BaudRate;
+    std::cin.ignore();
+
+    ClientCommunication clientcommunication(BaudRate);
 
     std::string message;
     std::string gamemode;
