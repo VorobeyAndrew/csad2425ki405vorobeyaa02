@@ -4,6 +4,7 @@ set CLIENT_PATH="%~dp0..\src\Client"
 set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
+set SOLUTION_PATH="%~dp0..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln"
 set IS_GITHUB_ACTION=%GITHUB_ACTIONS%
 
 :: Перевірка на локальний чи CI запуск
@@ -55,14 +56,13 @@ if "%IS_LOCAL%"=="true" (
 )
 
 echo ===================================
-echo [INFO] Compiling AutoDetectCOMPort code...
-if not exist "..\src\AutoDetectCOMPort" (
-    echo [ERROR] AutoDetectCOMPort .sln file not found: "..\src\AutoDetectCOMPort"
+if not exist "%SOLUTION_PATH%" (
+    echo [ERROR] AutoDetectCOMPort .sln file not found: "%SOLUTION_PATH%"
     pause
     exit /b 1
 )
 
-dotnet build ..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln -c Release
+dotnet build "%SOLUTION_PATH%" -c Release
 
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to compile client code.
