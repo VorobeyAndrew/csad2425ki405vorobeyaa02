@@ -72,15 +72,16 @@ if %errorlevel% neq 0 (
 echo [INFO] AutoDetectCOMPort compiled successfully.
 
 echo ===================================
+if "%IS_LOCAL%"=="true" (
 echo [INFO] Launching AutoDetectCOMPort.exe.
-"..\src\AutoDetectCOMPort\AutoDetectCOMPort\bin\Release\net8.0\AutoDetectCOMPort.exe"
-IF not %ERRORLEVEL% EQU 0 (
-    echo [ERROR] Failed to execute AutoDetectCOMPort.exe.
-    pause
-    exit /b 1
+	"..\src\AutoDetectCOMPort\AutoDetectCOMPort\bin\Release\net8.0\AutoDetectCOMPort.exe"
+	IF not %ERRORLEVEL% EQU 0 (
+    	echo [ERROR] Failed to execute AutoDetectCOMPort.exe.
+    	pause
+    	exit /b 1
+	)
+	echo [INFO] AutoDetectCOMPort.exe executed successfully.
 )
-echo [INFO] AutoDetectCOMPort.exe executed successfully.
-
 echo ===================================
 echo [INFO] Compiling client code...
 if not exist %CLIENT_PATH% (
