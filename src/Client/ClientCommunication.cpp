@@ -6,10 +6,10 @@
 
 
 // Constructor
-ClientCommunication::ClientCommunication() 
+ClientCommunication::ClientCommunication(int BaudRate) 
 {
     portName = readArduinoCOMPort(L"../config/ConfigFile.json");
-    hSerial = setupSerial(portName);
+    hSerial = setupSerial(portName, BaudRate);
     if (hSerial == INVALID_HANDLE_VALUE) {
         HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_RED);
         std::cerr << "[ERROR] Failed to initialize serial communication." << std::endl;
@@ -84,7 +84,7 @@ std::vector<std::string> ClientCommunication::receiveMessage()
 }
 
 // Setup the serial port
-HANDLE ClientCommunication::setupSerial(const std::wstring& portName) 
+HANDLE ClientCommunication::setupSerial(const std::wstring& portName, int BaudRate)
 {
     hSerial = CreateFileW(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (hSerial == INVALID_HANDLE_VALUE) {
@@ -96,7 +96,7 @@ HANDLE ClientCommunication::setupSerial(const std::wstring& portName)
         return INVALID_HANDLE_VALUE;
     }
 
-    dcbSerialParams.BaudRate = 9600;
+    dcbSerialParams.BaudRate = BaudRate;
     dcbSerialParams.ByteSize = 8;
     dcbSerialParams.StopBits = 1;
     dcbSerialParams.Parity = 0;

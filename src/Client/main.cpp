@@ -6,7 +6,13 @@
 
 int main() 
 {
-    ClientCommunication clientcommunication;
+    std::cout << "Posible baud rates: 300, 1200, 2400, 4800, 9600(default), 14400, 19200, 28800, 38400, 57600, 115200" << std::endl;
+    std::cout << "Enter BaudRate: ";
+    int BaudRate = 9600;
+    std::cin >> BaudRate;
+    std::cin.ignore();
+
+    ClientCommunication clientcommunication(BaudRate);
 
     std::string message;
     std::string gamemode;
