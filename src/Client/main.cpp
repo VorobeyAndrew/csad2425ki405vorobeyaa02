@@ -52,13 +52,42 @@ HANDLE setupSerial(const std::wstring& portName, int BaudRate) {
 	return hSerial;
 }
 
+void ListAvailableCOMPorts() {
+	// Define a range for COM port numbers
+	const int maxPorts = 255;
+	char portName[20];
+
+	std::cout << "Active COM Ports: ";
+	for (int i = 1; i <= maxPorts; ++i) {
+		// Generate port name
+		snprintf(portName, sizeof(portName), "\\\\.\\COM%d", i);
+
+		// Try to open the port
+		HANDLE hCOM = CreateFileA(portName,
+			GENERIC_READ | GENERIC_WRITE,
+			0,
+			nullptr,
+			OPEN_EXISTING,
+			0,
+			nullptr);
+
+		if (hCOM != INVALID_HANDLE_VALUE) {
+			std::cout << "COM" << i << "; ";
+			CloseHandle(hCOM); // Close handle if the port is active
+		}
+	}
+	std::cout << std::endl;
+}
+
 int main()
 {
 	while (true)
 	{
+		ListAvailableCOMPorts();
 		std::cout << "Enter COM Port: ";
 		std::wstring COMPort; // = L"COM6"
 		std::wcin >> COMPort;
+		std::cout << "Posible baud rates: 300, 1200, 2400, 4800, 9600(default), 14400, 19200, 28800, 38400, 57600, 115200" << std::endl;
 		std::cout << "Enter BaudRate: ";
 		int BaudRate = 9600;
 		std::cin >> BaudRate;
