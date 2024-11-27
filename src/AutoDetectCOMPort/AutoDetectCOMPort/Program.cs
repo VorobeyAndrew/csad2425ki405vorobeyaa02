@@ -26,6 +26,11 @@ namespace SerialPortExample
             }
         }
 
+        /**
+         * @brief Retrieves all available PnP entities on the system.
+         * 
+         * @return Array of ManagementObject representing the available ports.
+         */
         static ManagementObject[] FindPorts()
         {
             try
@@ -46,6 +51,12 @@ namespace SerialPortExample
             }
         }
 
+        /**
+        * @brief Finds the COM port based on the device description.
+        * 
+        * @param description The device description to search for.
+        * @return COM port name as a string if found; otherwise, an empty string.
+        */
         static string FindPortByDescription(string description)
         {
             foreach (ManagementObject obj in FindPorts())
@@ -69,6 +80,12 @@ namespace SerialPortExample
             return string.Empty;
         }
 
+        /**
+         * @brief Parses the COM port name from the ManagementObject.
+         * 
+         * @param obj The ManagementObject containing the port information.
+         * @return The parsed COM port name as a string or null if not found.
+         */
         static string ParseCOMName(ManagementObject obj)
         {
             string name = obj["Name"].ToString();
@@ -83,7 +100,12 @@ namespace SerialPortExample
             return null;
         }
 
-        // Method to update the ArduinoCOMPort in the ConfigFile.json
+        /**
+         * @brief Updates the COM port information in the configuration file.
+         * 
+         * @param comPort The COM port to be updated in the config file.
+         * @param fileName The path to the configuration file (JSON format).
+         */
         static void UpdateConfigFile(string comPort, string fileName)
         {
             try
@@ -114,12 +136,17 @@ namespace SerialPortExample
         }
     }
 
-    // Define a class to match the structure of the JSON file
+    /**
+    * @brief Represents the structure of the Arduino configuration file.
+    */
     public class ArduinoConfig
     {
         public ArduinoSettings ArduinoSettings { get; set; }
     }
 
+    /**
+    * @brief Represents the Arduino settings within the configuration file.
+    */
     public class ArduinoSettings
     {
         public string COMPort { get; set; }

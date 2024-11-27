@@ -1,0 +1,38 @@
+\doxysection{Helper\+Utils.\+h}
+\hypertarget{_helper_utils_8h_source}{}\label{_helper_utils_8h_source}\index{D:/4course/APKS/Labs/csad2425ki45vorobeyaa02/src/Client/HelperUtils.h@{D:/4course/APKS/Labs/csad2425ki45vorobeyaa02/src/Client/HelperUtils.h}}
+\mbox{\hyperlink{_helper_utils_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cctype>}\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_helper_utils}{HelperUtils}}\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_helper_utils_af238f127ddde83270cfc20b18d26be3c}{toLowerCase}}(std::string\&\ text);}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_helper_utils_a14bc5bd6a0ee70031ec80aa9a02ce0c6}{setConsoleColor}}(\textcolor{keywordtype}{int}\ color);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0}{ConsoleColor}}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0af3b6d3f8492165d90b9c3b6c4aea11f8}{BLACK}}\ =\ 0,\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a0a48cf23d27a366bfa141adea5ebff58}{DARK\_BLUE}}\ =\ 1,\ \ \ \ \ \ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a125feea4ab29c651803998666e6130eb}{DARK\_GREEN}}\ =\ 2,\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a3976fd0bf5b303072eec5312ebe2b0c4}{DARK\_CYAN}}\ =\ 3,\ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a294e7e011ad2a5f438a729a71753cacb}{DARK\_RED}}\ =\ 4,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0ac61e04a7f9e56394aa73bc712db8e87c}{DARK\_MAGENTA}}\ =\ 5,\ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a82ea9ef41a23f8aa02f613334490e62f}{DARK\_YELLOW}}\ =\ 6,\ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0ab40365aaf3f8e8d9f46c690b8b5154ec}{LIGHT\_GRAY}}\ =\ 7,\ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a41c807e65dafa1126ed4378be95b7aa3}{DARK\_GRAY}}\ =\ 8,\ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a0c2d7f956b4425a989bdb2ae551ea2e2}{LIGHT\_BLUE}}\ =\ 9,\ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0acd185b7dfe77ae10b26b4eea09799259}{LIGHT\_GREEN}}\ =\ 10,\ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0ac15d0a877a6c23c37458cd7fae78d3a0}{LIGHT\_CYAN}}\ =\ 11,\ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a1f406847d2f708fe853030a19b529df3}{LIGHT\_RED}}\ =\ 12,\ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a718f55f0509a0553f57b02039b23b4d1}{LIGHT\_MAGENTA}}\ =\ 13,\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0a68af1e4a1c351198367f0beda8e7351b}{LIGHT\_YELLOW}}\ =\ 14,\ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_helper_utils_ab5d94266b5b7d149cb4cabcde6a20fe0acf130d4e420a87664f695f036be2058d}{WHITE}}\ =\ 15\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \};}
+\DoxyCodeLine{00046\ \};}
+
+\end{DoxyCode}

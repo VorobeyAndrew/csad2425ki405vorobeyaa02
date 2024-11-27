@@ -1,0 +1,171 @@
+\doxysection{Client\+Communication Class Reference}
+\hypertarget{class_client_communication}{}\label{class_client_communication}\index{ClientCommunication@{ClientCommunication}}
+
+
+{\ttfamily \#include $<$Client\+Communication.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_client_communication_a972d0dae3b1eba2316bfad026970e085}{Client\+Communication}} (int Baud\+Rate)
+\begin{DoxyCompactList}\small\item\em Constructor that initializes the serial communication with the specified baud rate. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_client_communication_a87acdb3d770e96f9bc52303eade3d8d3}{\texorpdfstring{$\sim$}{\string~}\+Client\+Communication}} ()
+\begin{DoxyCompactList}\small\item\em Destructor to close the serial port and clean up resources. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_client_communication_aa569c241a1589dc3c5427f2d5bd256d5}{send\+Message}} (const std\+::string \&message)
+\begin{DoxyCompactList}\small\item\em Sends a message to the Arduino device. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_client_communication_a29d45a3866ef8732d3cf766d46cb6a25}{receive\+Message}} ()
+\begin{DoxyCompactList}\small\item\em Receives a message from the Arduino device. \end{DoxyCompactList}\item 
+HANDLE \mbox{\hyperlink{class_client_communication_a7f1baa92a943e5f3788e6b92ba761a06}{setup\+Serial}} (const std\+::wstring \&\mbox{\hyperlink{class_client_communication_ae5dd1fe308eceac65bc003cb417347f7}{port\+Name}}, int Baud\+Rate)
+\begin{DoxyCompactList}\small\item\em Configures the serial port communication with the specified port and baud rate. \end{DoxyCompactList}\item 
+HANDLE \mbox{\hyperlink{class_client_communication_a685bbcaf26eb8264ebe551a68a88bcbd}{Geth\+Serial}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the handle to the serial port. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::wstring \mbox{\hyperlink{class_client_communication_a3edbdacf69c6da53cf0a9d4330ad9083}{read\+Arduino\+COMPort}} (const std\+::wstring \&config\+File)
+\begin{DoxyCompactList}\small\item\em Reads the configured COM port from a configuration file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+HANDLE \mbox{\hyperlink{class_client_communication_a45f3e15878866dccb72d9c93e7fbf9bc}{h\+Serial}}
+\item 
+std\+::wstring \mbox{\hyperlink{class_client_communication_ae5dd1fe308eceac65bc003cb417347f7}{port\+Name}}
+\item 
+int \mbox{\hyperlink{class_client_communication_a30d553acf024b384b95c085544365624}{baud\+Rate}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_client_communication_a972d0dae3b1eba2316bfad026970e085}\index{ClientCommunication@{ClientCommunication}!ClientCommunication@{ClientCommunication}}
+\index{ClientCommunication@{ClientCommunication}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{ClientCommunication()}{ClientCommunication()}}
+{\footnotesize\ttfamily \label{class_client_communication_a972d0dae3b1eba2316bfad026970e085} 
+Client\+Communication\+::\+Client\+Communication (\begin{DoxyParamCaption}\item[{int}]{Baud\+Rate}{}\end{DoxyParamCaption})}
+
+
+
+Constructor that initializes the serial communication with the specified baud rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Baud\+Rate} & The baud rate for serial communication. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_communication_a87acdb3d770e96f9bc52303eade3d8d3}\index{ClientCommunication@{ClientCommunication}!````~ClientCommunication@{\texorpdfstring{$\sim$}{\string~}ClientCommunication}}
+\index{````~ClientCommunication@{\texorpdfstring{$\sim$}{\string~}ClientCommunication}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}ClientCommunication()}{\string~ClientCommunication()}}
+{\footnotesize\ttfamily \label{class_client_communication_a87acdb3d770e96f9bc52303eade3d8d3} 
+Client\+Communication\+::\texorpdfstring{$\sim$}{\string~}\+Client\+Communication (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor to close the serial port and clean up resources. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_client_communication_a685bbcaf26eb8264ebe551a68a88bcbd}\index{ClientCommunication@{ClientCommunication}!GethSerial@{GethSerial}}
+\index{GethSerial@{GethSerial}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{GethSerial()}{GethSerial()}}
+{\footnotesize\ttfamily \label{class_client_communication_a685bbcaf26eb8264ebe551a68a88bcbd} 
+HANDLE Client\+Communication\+::\+Geth\+Serial (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Retrieves the handle to the serial port. 
+
+\begin{DoxyReturn}{Returns}
+The handle to the serial port. 
+\end{DoxyReturn}
+\Hypertarget{class_client_communication_a3edbdacf69c6da53cf0a9d4330ad9083}\index{ClientCommunication@{ClientCommunication}!readArduinoCOMPort@{readArduinoCOMPort}}
+\index{readArduinoCOMPort@{readArduinoCOMPort}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{readArduinoCOMPort()}{readArduinoCOMPort()}}
+{\footnotesize\ttfamily \label{class_client_communication_a3edbdacf69c6da53cf0a9d4330ad9083} 
+std\+::wstring Client\+Communication\+::read\+Arduino\+COMPort (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{config\+File}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Reads the configured COM port from a configuration file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+File} & Path to the configuration file containing port settings. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The name of the Arduino COM port as a wide string. 
+\end{DoxyReturn}
+\Hypertarget{class_client_communication_a29d45a3866ef8732d3cf766d46cb6a25}\index{ClientCommunication@{ClientCommunication}!receiveMessage@{receiveMessage}}
+\index{receiveMessage@{receiveMessage}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{receiveMessage()}{receiveMessage()}}
+{\footnotesize\ttfamily \label{class_client_communication_a29d45a3866ef8732d3cf766d46cb6a25} 
+std\+::vector$<$ std\+::string $>$ Client\+Communication\+::receive\+Message (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Receives a message from the Arduino device. 
+
+\begin{DoxyReturn}{Returns}
+A vector of strings containing the received message. 
+\end{DoxyReturn}
+\Hypertarget{class_client_communication_aa569c241a1589dc3c5427f2d5bd256d5}\index{ClientCommunication@{ClientCommunication}!sendMessage@{sendMessage}}
+\index{sendMessage@{sendMessage}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{sendMessage()}{sendMessage()}}
+{\footnotesize\ttfamily \label{class_client_communication_aa569c241a1589dc3c5427f2d5bd256d5} 
+void Client\+Communication\+::send\+Message (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message}{}\end{DoxyParamCaption})}
+
+
+
+Sends a message to the Arduino device. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to be sent as a standard string. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_client_communication_a7f1baa92a943e5f3788e6b92ba761a06}\index{ClientCommunication@{ClientCommunication}!setupSerial@{setupSerial}}
+\index{setupSerial@{setupSerial}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{setupSerial()}{setupSerial()}}
+{\footnotesize\ttfamily \label{class_client_communication_a7f1baa92a943e5f3788e6b92ba761a06} 
+HANDLE Client\+Communication\+::setup\+Serial (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{port\+Name}{, }\item[{int}]{Baud\+Rate}{}\end{DoxyParamCaption})}
+
+
+
+Configures the serial port communication with the specified port and baud rate. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em port\+Name} & Name of the COM port. \\
+\hline
+{\em Baud\+Rate} & The baud rate for communication. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A handle to the configured serial port. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_client_communication_a30d553acf024b384b95c085544365624}\index{ClientCommunication@{ClientCommunication}!baudRate@{baudRate}}
+\index{baudRate@{baudRate}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{baudRate}{baudRate}}
+{\footnotesize\ttfamily \label{class_client_communication_a30d553acf024b384b95c085544365624} 
+int Client\+Communication\+::baud\+Rate\hspace{0.3cm}{\ttfamily [private]}}
+
+Communication baud rate \Hypertarget{class_client_communication_a45f3e15878866dccb72d9c93e7fbf9bc}\index{ClientCommunication@{ClientCommunication}!hSerial@{hSerial}}
+\index{hSerial@{hSerial}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{hSerial}{hSerial}}
+{\footnotesize\ttfamily \label{class_client_communication_a45f3e15878866dccb72d9c93e7fbf9bc} 
+HANDLE Client\+Communication\+::h\+Serial\hspace{0.3cm}{\ttfamily [private]}}
+
+Handle to the serial port \Hypertarget{class_client_communication_ae5dd1fe308eceac65bc003cb417347f7}\index{ClientCommunication@{ClientCommunication}!portName@{portName}}
+\index{portName@{portName}!ClientCommunication@{ClientCommunication}}
+\doxysubsubsection{\texorpdfstring{portName}{portName}}
+{\footnotesize\ttfamily \label{class_client_communication_ae5dd1fe308eceac65bc003cb417347f7} 
+std\+::wstring Client\+Communication\+::port\+Name\hspace{0.3cm}{\ttfamily [private]}}
+
+Name of the COM port 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/4course/\+APKS/\+Labs/csad2425ki45vorobeyaa02/src/\+Client/\mbox{\hyperlink{_client_communication_8h}{Client\+Communication.\+h}}\end{DoxyCompactItemize}

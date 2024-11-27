@@ -1,0 +1,49 @@
+# Doxyfile configuration for your project
+
+# General settings
+PROJECT_NAME           = "Rock-Paper-Scissors"
+PROJECT_BRIEF          = ""
+OUTPUT_DIRECTORY       = ./output              # Documentation will be generated in the 'docs' folder
+
+# Set the source directories (recursively search for files in these directories)
+INPUT                  = ../src/Client ../src/Server ../src/AutoDetectCOMPort/AutoDetectCOMPort
+
+# File patterns to include (e.g., .h, .ino, .cs files)
+FILE_PATTERNS          = *.h *.ino *.cs
+
+# Recursively scan subdirectories
+RECURSIVE              = YES
+
+# Set the output format (HTML and LaTeX)
+GENERATE_HTML          = YES
+GENERATE_LATEX         = YES
+
+# Define the project version (if applicable)
+PROJECT_VERSION        = "1.0"
+
+# Enable the generation of API documentation (for C++ and C# code)
+EXTRACT_ALL            = YES
+
+# Enable the generation of documentation for private members, functions, etc.
+EXTRACT_PRIVATE        = YES
+
+# Generate a list of all documented classes
+GENERATE_TREEVIEW      = YES
+
+# Use the input files to generate documentation
+INPUT_ENCODING         = UTF-8
+
+# Configure the index page of the HTML documentation
+GENERATE_INDEX         = YES
+
+# Include source code in the documentation
+INLINE_SOURCES         = YES
+
+# Set the navigation bar (optional)
+HTML_NAVIGATION        = YES
+
+# Set the output location for the LaTeX documentation
+LATEX_OUTPUT           = latex
+
+# Enable line numbers in the documentation
+SHOW_LINES             = YES
