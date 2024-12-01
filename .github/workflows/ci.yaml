@@ -24,12 +24,6 @@ jobs:
       - name: Download platform Arduino AVR
         run: arduino-cli core install arduino:avr
 
-      - name: Install Doxygen using Chocolatey
-        run: |
-	Invoke-WebRequest -Uri "https://doxygen.nl/files/doxygen-1.9.6.1-setup.exe" -OutFile "doxygen-setup.exe"
-        Start-Process -Wait -FilePath "doxygen-setup.exe" -ArgumentList "/SILENT", "/DIR=C:\Program Files\doxygen"
-        $env:Path += ";C:\Program Files\doxygen\bin"
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -43,14 +37,3 @@ jobs:
         with:
           name: build-artifacts
           path: build/*
-
-      - name: Generate documentation using Doxygen
-        run: |
-          cd doc
-          doxygen Doxyfile
-
-      - name: Upload documentation artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: documentation
-          path: doc/output/html
