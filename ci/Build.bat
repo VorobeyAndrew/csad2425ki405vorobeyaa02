@@ -111,7 +111,7 @@ echo [INFO] Server code compiled successfully.
 
 echo ===================================
 if "%IS_LOCAL%"=="true" (
-	if exist "%~dp0..\doc\Doxyfile" 
+	if exist "%~dp0..\doc" 
 	(
     		echo [INFO] Doxyfile found, generating documentation...
    		cd /d "%~dp0..\doc"
