@@ -25,7 +25,7 @@ jobs:
         run: arduino-cli core install arduino:avr
 
       - name: Install Doxygen & Graphviz
-      run: |
+        run: |
         choco install doxygen.install --version 1.9.4
         choco install graphviz
 
