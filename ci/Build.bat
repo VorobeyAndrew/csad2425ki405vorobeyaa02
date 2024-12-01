@@ -5,6 +5,7 @@ set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
 set SOLUTION_PATH="%~dp0..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln"
+set CURRENT_DIR=%cd%
 set IS_GITHUB_ACTION=%GITHUB_ACTIONS%
 
 :: Перевірка на локальний чи CI запуск
@@ -107,6 +108,22 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 echo [INFO] Server code compiled successfully.
+
+echo ===================================
+if exist "..\doc\Doxyfile" (
+    echo [INFO] File exists, executing...
+    cd /d "%~dp0..\doc"
+    doxygen Doxyfile
+    if %errorlevel% equ 0 (
+        echo [INFO] Execution succeeded.
+    ) else (
+        echo Execution failed with errorlevel %errorlevel%.
+    )
+) else (
+    echo [ERROR] GenerateDocumentation.bat not found.
+)
+
+cd /d %CURRENT_DIR%
 
 :: Якщо локально, завантажуємо код на плату Arduino
 if "%IS_LOCAL%"=="true" (

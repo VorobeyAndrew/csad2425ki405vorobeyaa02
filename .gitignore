@@ -5,6 +5,7 @@ bin/
 obj/
 build/
 CMakeFiles/
+output/
 # Ignore user-specific files
 *.user
 *.suo
