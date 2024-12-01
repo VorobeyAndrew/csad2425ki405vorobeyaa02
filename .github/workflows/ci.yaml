@@ -25,7 +25,7 @@ jobs:
         run: arduino-cli core install arduino:avr
 
       - name: Download and install Doxygen
-        run:
+        run: |
         curl -L -o doxygen.zip https://github.com/doxygen/doxygen/releases/download/Release_1_9_6/doxygen-1.9.6.windows.x64.bin.zip
         tar -xf doxygen.zip
         set PATH=%PATH%;%CD%\doxygen-1.9.6.windows.x64.bin\bin
