@@ -109,22 +109,15 @@ if %errorlevel% neq 0 (
 )
 echo [INFO] Server code compiled successfully.
 
-echo ===================================
 if "%IS_LOCAL%"=="true" (
-	if exist "%~dp0..\doc" 
-	(
-    		echo [INFO] Doxyfile found, generating documentation...
-   		cd /d "%~dp0..\doc"
-    		doxygen Doxyfile
-		cd /d %CURRENT_DIR%
-	) 
-	else 
-	(
-    		echo [ERROR] Doxyfile not found, skipping documentation generation.
-	)
-
-)else (
-    echo [INFO] Skipping generating documentation GitHub Actions.
+    if exist "..\doc" (
+        echo [INFO] Doxyfile found, generating documentation...
+   	cd /d "..\doc"
+    	doxygen Doxyfile
+	cd /d %CURRENT_DIR%
+    ) else (
+    	echo [ERROR] Doxyfile not found, skipping documentation generation.
+    )
 )
 
 :: Якщо локально, завантажуємо код на плату Arduino

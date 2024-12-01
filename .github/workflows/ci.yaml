@@ -38,13 +38,4 @@ jobs:
           name: build-artifacts
           path: build/*
 
-      - name: Generate documentation using Doxygen
-        run: |
-          cd doc
-          doxygen Doxyfile
 
-      - name: Upload documentation artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: documentation
-          path: doc/html
