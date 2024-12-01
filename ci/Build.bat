@@ -109,22 +109,26 @@ if %errorlevel% neq 0 (
 )
 echo [INFO] Server code compiled successfully.
 
-echo ===================================
-if exist "..\doc\Doxyfile" (
-    echo [INFO] File exists, executing...
-    cd /d "%~dp0..\doc"
-    doxygen Doxyfile
-    if %errorlevel% equ 0 (
-        echo [INFO] Execution succeeded.
-    ) else (
-        echo Execution failed with errorlevel %errorlevel%.
-    )
-) else (
-    echo [ERROR] GenerateDocumentation.bat not found.
+if "%IS_LOCAL%"=="true" 
+(
+	echo ===================================
+	if exist "..\doc\Doxyfile" 
+	(
+   	 echo [INFO] File exists, executing...
+    		cd /d "%~dp0..\doc"
+    		doxygen Doxyfile
+    		if %errorlevel% equ 0 (
+     		   echo [INFO] Execution succeeded.
+    		) else (
+     		   echo Execution failed with errorlevel %errorlevel%.
+    		)
+		cd /d %CURRENT_DIR%
+	) 
+	else 
+	(
+   	 echo [ERROR] GenerateDocumentation.bat not found.
+	)
 )
-
-cd /d %CURRENT_DIR%
-
 :: Якщо локально, завантажуємо код на плату Arduino
 if "%IS_LOCAL%"=="true" (
     echo ===================================
