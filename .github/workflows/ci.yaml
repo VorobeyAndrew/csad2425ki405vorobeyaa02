@@ -31,14 +31,20 @@ jobs:
 
       - name: Build with Bat file
         run: ci/Build.bat
-      
-	- name: Generate documentation using Doxygen
-        run: |
-          cd doc
-          doxygen Doxyfile
 
-      - name: Download build artifacts
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: build/*
+
+      - name: Generate documentation using Doxygen
+        run: |
+          cd doc
+          doxygen Doxyfile
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation
+          path: doc/html
