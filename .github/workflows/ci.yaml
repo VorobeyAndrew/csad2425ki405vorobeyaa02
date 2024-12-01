@@ -24,6 +24,13 @@ jobs:
       - name: Download platform Arduino AVR
         run: arduino-cli core install arduino:avr
 
+	- name: Download and install Doxygen
+        run: |
+          curl -L -o doxygen.zip https://github.com/doxygen/doxygen/releases/download/Release_1_9_6/doxygen-1.9.6.windows.x64.bin.zip
+          tar -xf doxygen.zip
+          set PATH=%PATH%;%CD%\doxygen-1.9.6.windows.x64.bin\bin
+          echo Doxygen installed successfully.
+
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
