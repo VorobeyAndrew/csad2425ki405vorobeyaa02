@@ -5,6 +5,7 @@ set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
 set SOLUTION_PATH="%~dp0..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln"
+set CURRENT_DIR=%cd%
 set IS_GITHUB_ACTION=%GITHUB_ACTIONS%
 
 :: Перевірка на локальний чи CI запуск
@@ -107,6 +108,17 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 echo [INFO] Server code compiled successfully.
+
+if "%IS_LOCAL%"=="true" (
+    if exist "..\doc" (
+        echo [INFO] Doxyfile found, generating documentation...
+   	cd /d "..\doc"
+    	doxygen Doxyfile
+	cd /d %CURRENT_DIR%
+    ) else (
+    	echo [ERROR] Doxyfile not found, skipping documentation generation.
+    )
+)
 
 :: Якщо локально, завантажуємо код на плату Arduino
 if "%IS_LOCAL%"=="true" (

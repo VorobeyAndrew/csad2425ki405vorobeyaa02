@@ -1,12 +1,23 @@
+/**
+ * @brief Stores the moves of Player 1 and Player 2, and the selected game mode.
+ */
 char player1move;
 char player2move;
 char gamemode;
 
+/**
+ * @brief Initializes serial communication at 9600 baud rate.
+ */
 void setup() 
 {
   Serial.begin(9600);
 }
 
+/**
+ * @brief Continuously checks for data from the client and processes the game logic.
+ * 
+ * If a message is available from the serial port, it reads the message and starts the game by calling `LaunchGame()`.
+ */
 void loop() 
 {
   if (Serial.available()) 
@@ -15,6 +26,11 @@ void loop()
   }
 }
 
+/**
+ * @brief Launches the game based on the game mode and player moves received.
+ * 
+ * @param tokenizedMessage A tokenized message that contains the game mode and player moves.
+ */
 void LaunchGame(char* tokenizedMessage)
 {
   for (int i = 0; i < strlen(tokenizedMessage); i++) 
@@ -44,6 +60,12 @@ void LaunchGame(char* tokenizedMessage)
     }
 }
 
+/**
+ * @brief Converts a message from the client into a tokenized char array.
+ * 
+ * @param message The message received from the client as a String.
+ * @return A pointer to a tokenized char array.
+ */
 char* TokenizeMessageFromClient(String message) 
 {
   int length = message.length();
@@ -60,6 +82,11 @@ char* TokenizeMessageFromClient(String message)
   return decryptedMessage;
 }
 
+/**
+ * @brief Generates a random move for the AI (rock, paper, or scissors).
+ * 
+ * @return A character representing the AI's move ('r' for rock, 'p' for paper, 's' for scissors).
+ */
 char RandomChoice() 
 {
   int randomNumber = rand() % 3;
@@ -71,6 +98,12 @@ char RandomChoice()
   return 'r';
 }
 
+/**
+ * @brief Compares the moves of Player 1 and Player 2 and determines the winner.
+ * 
+ * @param player1move The move of Player 1.
+ * @param player2move The move of Player 2.
+ */
 void CheckWinCondition(char player1move, char player2move) 
 {
   //Serial.println("Player 1 move: " + String(player1move));
@@ -114,16 +147,30 @@ void CheckWinCondition(char player1move, char player2move)
   }
 }
 
+/**
+ * @brief Handles the game logic for the Man vs AI game mode.
+ * 
+ * @param player1move The move of Player 1.
+ */
 void ManVsAIHandle(char player1move) 
 {
   CheckWinCondition(player1move, RandomChoice());
 }
 
+/**
+ * @brief Handles the game logic for the Man vs Man game mode.
+ * 
+ * @param player1move The move of Player 1.
+ * @param player2move The move of Player 2.
+ */
 void ManVsManHandle(char player1move, char player2move) 
 {
   CheckWinCondition(player1move, player2move);
 }
 
+/**
+ * @brief Handles the game logic for the AI vs AI game mode.
+ */
 void AIVsAIHandle() 
 {
   CheckWinCondition(RandomChoice(), RandomChoice());
