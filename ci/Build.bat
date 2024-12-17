@@ -135,7 +135,6 @@ if "%IS_LOCAL%"=="true" (
     echo [INFO] Skipping Arduino upload in GitHub Actions.
 )
 
-if "%IS_LOCAL%"=="true" (
     if "%1"=="--with-client-tests" (
     	echo ===================================
     	echo [INFO] Compile client tests...
@@ -215,7 +214,6 @@ if "%IS_LOCAL%"=="true" (
 	    )
 	echo [INFO] ServerTest.exe executed successfully.
     )
-)
 
 echo ===================================
 if "%IS_LOCAL%"=="true" (
