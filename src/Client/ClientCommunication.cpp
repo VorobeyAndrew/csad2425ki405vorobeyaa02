@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include "../third_party/include/nlohmann/json.hpp"
-#include "HelperUtils.h"
 
 
 // Constructor
@@ -11,9 +10,7 @@ ClientCommunication::ClientCommunication(int BaudRate)
     portName = readArduinoCOMPort(L"../config/ConfigFile.json");
     hSerial = setupSerial(portName, BaudRate);
     if (hSerial == INVALID_HANDLE_VALUE) {
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_RED);
         std::cerr << "[ERROR] Failed to initialize serial communication." << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
     }
 }
 
@@ -31,14 +28,10 @@ void ClientCommunication::sendMessage(const std::string& message)
     DWORD bytesWritten;
     BOOL writeSuccess = WriteFile(hSerial, message.c_str(), message.size(), &bytesWritten, nullptr);
     if (!writeSuccess) {
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_RED);
         std::cerr << "[ERROR] Failed to send message. Error code: " << GetLastError() << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
     }
     else {
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_GRAY);
         std::cout << "[INFO] Message sent: " << message << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
     }
 
 }
@@ -53,9 +46,7 @@ std::vector<std::string> ClientCommunication::receiveMessage()
 
     if (ReadFile(hSerial, buffer, sizeof(buffer) - 1, &bytesRead, nullptr)) {
         buffer[bytesRead] = '\0';  // Завершуємо рядок нульовим символом
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_GRAY);
         std::cout << "[INFO] Received message: " << std::endl << buffer << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
 
         StringBuffer = std::string(buffer);
         for (int i = 0; i < StringBuffer.size(); i++)
@@ -76,9 +67,7 @@ std::vector<std::string> ClientCommunication::receiveMessage()
         return receivedMessage;
     }
     else {
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_RED);
         std::cerr << "[ERROR] Failed to read from serial port. Error code: " << GetLastError() << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
         return receivedMessage;
     }
 }
@@ -134,15 +123,11 @@ std::wstring ClientCommunication::readArduinoCOMPort(const std::wstring& configF
         ArduinoPortName = std::wstring(comPort.begin(), comPort.end()); // Convert to wstring
 
         // Output the COM port to verify
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::LIGHT_GRAY);
         std::wcout << L"[INFO] Arduino COM Port: " << ArduinoPortName << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
         return ArduinoPortName;
     }
     catch (const std::exception& e) {
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::DARK_RED);
         std::cerr << "[ERROR] Failed to read COM port from JSON: " << e.what() << std::endl;
-        HelperUtils::setConsoleColor(HelperUtils::ConsoleColor::WHITE);
     }
     return nullptr;
 }

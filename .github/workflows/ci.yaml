@@ -30,7 +30,7 @@ jobs:
           dotnet-version: '7.x'
 
       - name: Build with Bat file
-        run: ci/Build.bat
+        run: ci/Build.bat --with-all-tests
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
