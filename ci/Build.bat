@@ -5,6 +5,7 @@ set SERVER_PATH="%~dp0..\src\Server\Server.ino"
 set SERVER_PORT="COM6"
 set BUILD_DIR="%~dp0..\build"
 set SOLUTION_PATH="%~dp0..\src\AutoDetectCOMPort\AutoDetectCOMPort.sln"
+set TESTRESULT_DIR="%~dp0..\TestResult"
 set CURRENT_DIR=%cd%
 set IS_GITHUB_ACTION=%GITHUB_ACTIONS%
 
@@ -132,6 +133,11 @@ if "%IS_LOCAL%"=="true" (
     echo [INFO] Skipping Arduino upload in GitHub Actions.
 )
 if "%IS_LOCAL%"=="true" (
+if not exist %TESTRESULT_DIR% (
+        mkdir %TESTRESULT_DIR%
+	echo ===================================
+	echo [INFO] Directory for test results created: %TESTRESULT_DIR%
+        )
     if "%1"=="--with-client-tests" (
     	echo ===================================
     	echo [INFO] Compile client tests...
@@ -144,7 +150,8 @@ if "%IS_LOCAL%"=="true" (
         echo [INFO] Client tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run client tests...
-    	.\ClientTest.exe
+    	.\ClientTest.exe > %TESTRESULT_DIR%\ClientTestResult.txt
+	type %TESTRESULT_DIR%\ClientTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ClientTest.exe.
     	    pause
@@ -164,7 +171,8 @@ if "%IS_LOCAL%"=="true" (
         echo [INFO] Server tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run server tests...
-    	.\ServerTest.exe
+    	.\ServerTest.exe > %TESTRESULT_DIR%\ServerTestResult.txt
+	type %TESTRESULT_DIR%\ServerTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ServerTest.exe.
     	    pause
@@ -184,7 +192,8 @@ if "%IS_LOCAL%"=="true" (
         echo [INFO] Client tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run client tests...
-    	.\ClientTest.exe
+    	.\ClientTest.exe > %TESTRESULT_DIR%\ClientTestResult.txt
+	type %TESTRESULT_DIR%\ClientTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ClientTest.exe.
     	    pause
@@ -203,7 +212,8 @@ if "%IS_LOCAL%"=="true" (
         echo [INFO] Server tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run server tests...
-    	.\ServerTest.exe
+    	.\ServerTest.exe > %TESTRESULT_DIR%\ServerTestResult.txt
+	type %TESTRESULT_DIR%\ServerTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ServerTest.exe.
     	    pause

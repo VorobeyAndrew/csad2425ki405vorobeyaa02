@@ -6,6 +6,7 @@ obj/
 build/
 CMakeFiles/
 output/
+TestResult/
 # Ignore user-specific files
 *.user
 *.suo

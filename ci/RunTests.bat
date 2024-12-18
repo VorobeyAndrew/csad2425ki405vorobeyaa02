@@ -1,9 +1,10 @@
 @echo off
 
 set RESULT_DIR="%~dp0..\TestResult"
-
+echo ===================================
 if not exist %RESULT_DIR% (
         mkdir %RESULT_DIR%
+	echo [INFO] Directory for test results created: %TESTRESULT_DIR%
         )
 
 echo ===================================
