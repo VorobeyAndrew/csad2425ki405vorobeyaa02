@@ -18,7 +18,8 @@ echo ===================================
 
     	echo ===================================
     	echo [INFO] Run client tests...
-    	.\ClientTest.exe
+    	.\ClientTest.exe > %RESULT_DIR%\ClientTestResult.txt
+	type %RESULT_DIR%\ClientTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ClientTest.exe.
     	    pause
@@ -37,7 +38,8 @@ echo ===================================
         echo [INFO] Server tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run server tests...
-    	.\ServerTest.exe
+    	.\ServerTest.exe %RESULT_DIR%\ServerTestResult.txt
+	type %RESULT_DIR%\ServerTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ServerTest.exe.
     	    pause
