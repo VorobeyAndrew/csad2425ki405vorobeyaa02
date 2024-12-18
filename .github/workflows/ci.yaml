@@ -32,7 +32,7 @@ jobs:
       - name: Build with Bat file
         run: ci/Build.bat
 
-      - name: Run tests with Bat file
+      - name: Run tests
         run: ci/RunTests.bat
 
       - name: Upload build artifacts
@@ -40,3 +40,9 @@ jobs:
         with:
           name: build-artifacts
           path: build/*
+
+      - name: Upload test result artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: testresult-artifacts
+          path: TestResult/*
