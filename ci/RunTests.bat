@@ -38,7 +38,7 @@ echo ===================================
         echo [INFO] Server tests build succsesfully.
     	echo ===================================
     	echo [INFO] Run server tests...
-    	.\ServerTest.exe %RESULT_DIR%\ServerTestResult.txt
+    	.\ServerTest.exe > %RESULT_DIR%\ServerTestResult.txt
 	type %RESULT_DIR%\ServerTestResult.txt
     	IF not %ERRORLEVEL% EQU 0 (
     	    echo [ERROR] Failed to execute ServerTest.exe.
