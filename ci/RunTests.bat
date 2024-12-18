@@ -44,5 +44,3 @@ echo ===================================
     	    exit /b 1
 	    )
 	echo [INFO] ServerTest.exe executed successfully.
-    )
-)
