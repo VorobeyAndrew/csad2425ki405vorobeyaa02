@@ -1,5 +1,3 @@
-#include "ServerLogic.h"
-
 /**
  * @brief Stores the moves of Player 1 and Player 2, and the selected game mode.
  */
@@ -24,7 +22,7 @@ void loop()
 {
   if (Serial.available()) 
   {
-    LaunchGame(Serial.readString().c_str());
+    LaunchGame(TokenizeMessageFromClient(Serial.readString()));
   }
 }
 
@@ -45,27 +43,43 @@ void LaunchGame(char* tokenizedMessage)
     switch(gamemode)
     {
       case '1':
-        char Random_Choice = RandomChoice();
-        Serial.println(String(player1move) + String(Random_Choice));
-        Serial.println(String(ManVsAIHandle(player1move, Random_Choice)));
+        ManVsAIHandle(player1move);
         break;
 
       case '2':
-        Serial.println(String(player1move) + String(player2move));
-        Serial.println(String(ManVsManHandle(player1move, player2move)));
+        ManVsManHandle(player1move, player2move);
         break;
 
       case '3':
-        char RandomChoice1 = RandomChoice();
-        char RandomChoice2 = RandomChoice();
-        Serial.println(String(RandomChoice1) + String(RandomChoice2));
-        Serial.println(String(AIVsAIHandle(RandomChoice1,RandomChoice2)));
+        AIVsAIHandle();
         break;
       
       default:
         Serial.println("Unknown gamemode!");
         break;
     }
+}
+
+/**
+ * @brief Converts a message from the client into a tokenized char array.
+ * 
+ * @param message The message received from the client as a String.
+ * @return A pointer to a tokenized char array.
+ */
+char* TokenizeMessageFromClient(String message) 
+{
+  int length = message.length();
+  
+  static char* decryptedMessage = new char[length + 1];  // Add 1 for null terminator
+  
+  // Convert the String to a char array
+  for (int i = 0; i < length; i++) 
+  {
+    decryptedMessage[i] = message[i];
+  }
+  decryptedMessage[length] = '\0';  // Null-terminate the string
+  
+  return decryptedMessage;
 }
 
 /**
@@ -82,4 +96,82 @@ char RandomChoice()
   if (randomNumber == 2) return 's';
 
   return 'r';
+}
+
+/**
+ * @brief Compares the moves of Player 1 and Player 2 and determines the winner.
+ * 
+ * @param player1move The move of Player 1.
+ * @param player2move The move of Player 2.
+ */
+void CheckWinCondition(char player1move, char player2move) 
+{
+  //Serial.println("Player 1 move: " + String(player1move));
+  //Serial.println("Player 2 move: " + String(player2move));
+
+  Serial.println(String(player1move) + String(player2move));
+
+  if (player1move == 'r') 
+  {
+    if (player2move == 'r') Serial.println("Draw!");
+
+    else if (player2move == 'p') Serial.println("Player 2 win!");
+
+    else if (player2move == 's') Serial.println("Player 1 win!");
+
+    else Serial.println("Incorrect data!");
+  } 
+  else if (player1move == 'p') 
+  {
+    if (player2move == 'r') Serial.println("Player 1 win!");
+
+    else if (player2move == 'p') Serial.println("Draw!");
+
+    else if (player2move == 's') Serial.println("Player 2 win!");
+
+    else Serial.println("Incorrect data!");
+  } 
+  else if (player1move == 's') 
+  {
+    if (player2move == 'r') Serial.println("Player 2 win!");
+
+    else if (player2move == 'p') Serial.println("Player 1 win!");
+
+    else if (player2move == 's') Serial.println("Draw!");
+
+    else Serial.println("Incorrect data!");
+  } 
+  else 
+  {
+    Serial.println("Incorrect data!");
+  }
+}
+
+/**
+ * @brief Handles the game logic for the Man vs AI game mode.
+ * 
+ * @param player1move The move of Player 1.
+ */
+void ManVsAIHandle(char player1move) 
+{
+  CheckWinCondition(player1move, RandomChoice());
+}
+
+/**
+ * @brief Handles the game logic for the Man vs Man game mode.
+ * 
+ * @param player1move The move of Player 1.
+ * @param player2move The move of Player 2.
+ */
+void ManVsManHandle(char player1move, char player2move) 
+{
+  CheckWinCondition(player1move, player2move);
+}
+
+/**
+ * @brief Handles the game logic for the AI vs AI game mode.
+ */
+void AIVsAIHandle() 
+{
+  CheckWinCondition(RandomChoice(), RandomChoice());
 }

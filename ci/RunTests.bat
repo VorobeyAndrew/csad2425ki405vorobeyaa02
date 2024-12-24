@@ -27,23 +27,3 @@ echo ===================================
     	    exit /b 1
 	    )
 	echo [INFO] ClientTest.exe executed successfully.
-
-    	echo ===================================
-    	echo [INFO] Compile server tests...
-    	g++ -std=c++17 -mconsole -I".\src\third_party\include" -I".\src\Tests\googletestsrc" .\src\Tests\googletestsrc\src\gtest-all.cc .\src\Tests\Server\ServerLogicTest.cpp .\src\Server\ServerLogic.cpp -o ServerTest.exe
-    	if %errorlevel% neq 0 (
-       	    echo [ERROR] Failed to compile server tests.
-            pause
-            exit /b %errorlevel%
-        )
-        echo [INFO] Server tests build succsesfully.
-    	echo ===================================
-    	echo [INFO] Run server tests...
-    	.\ServerTest.exe > %RESULT_DIR%\ServerTestResult.txt
-	type %RESULT_DIR%\ServerTestResult.txt
-    	IF not %ERRORLEVEL% EQU 0 (
-    	    echo [ERROR] Failed to execute ServerTest.exe.
-    	    pause
-    	    exit /b 1
-	    )
-	echo [INFO] ServerTest.exe executed successfully.

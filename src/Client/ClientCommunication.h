@@ -18,6 +18,8 @@ public:
     */
     ClientCommunication(int BaudRate);
 
+    ClientCommunication(std::wstring portName, int BaudRate);
+
     /**
      * @brief Destructor to close the serial port and clean up resources.
      */

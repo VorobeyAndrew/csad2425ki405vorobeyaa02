@@ -1,54 +1,121 @@
 #include <gtest/gtest.h>
-#include "../../Server/ServerLogic.h"
+#include "../../Client/ClientCommunication.h"
+#include <string>
+#include <vector>
 
-// Тест функції CheckWinCondition
-TEST(ServerLogicTests, CheckWinConditionTests) {
-    // Тести для "камінь"
-    EXPECT_STREQ(CheckWinCondition('r', 'r'), "Draw!");
-    EXPECT_STREQ(CheckWinCondition('r', 'p'), "Player 2 win!");
-    EXPECT_STREQ(CheckWinCondition('r', 's'), "Player 1 win!");
+static std::wstring g_port = L"COM6";
+static int g_baudRate = 9600;
 
-    // Тести для "папір"
-    EXPECT_STREQ(CheckWinCondition('p', 'r'), "Player 1 win!");
-    EXPECT_STREQ(CheckWinCondition('p', 'p'), "Draw!");
-    EXPECT_STREQ(CheckWinCondition('p', 's'), "Player 2 win!");
+void parseCommandLineArgs(int argc, char** argv) 
+{
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
 
-    // Тести для "ножиці"
-    EXPECT_STREQ(CheckWinCondition('s', 'r'), "Player 2 win!");
-    EXPECT_STREQ(CheckWinCondition('s', 'p'), "Player 1 win!");
-    EXPECT_STREQ(CheckWinCondition('s', 's'), "Draw!");
-
-    // Некоректні дані
-    EXPECT_STREQ(CheckWinCondition('x', 'r'), "Incorrect data!");
-    EXPECT_STREQ(CheckWinCondition('r', 'x'), "Incorrect data!");
-    EXPECT_STREQ(CheckWinCondition('x', 'x'), "Incorrect data!");
+        if (arg.rfind("--port=", 0) == 0) 
+        {
+            // Відрізаємо "--port="
+            std::string portValue = arg.substr(7);
+            g_port = std::wstring(portValue.begin(), portValue.end());
+        }
+        else if (arg.rfind("--baud=", 0) == 0) 
+        {
+            std::string baudValue = arg.substr(7);
+            try 
+            {
+                g_baudRate = std::stoi(baudValue);
+            }
+            catch (...) 
+            {
+                std::cerr << "[WARNING] Failed to parse baud rate from: " << baudValue << std::endl;
+            }
+        }
+    }
 }
 
-// Тест функції ManVsAIHandle
-TEST(ServerLogicTests, ManVsAIHandleTests) {
-    // Перевіряємо тільки чи обгортка правильно передає аргументи
-    EXPECT_STREQ(ManVsAIHandle('r', 'p'), CheckWinCondition('r', 'p'));
-    EXPECT_STREQ(ManVsAIHandle('p', 's'), CheckWinCondition('p', 's'));
-    EXPECT_STREQ(ManVsAIHandle('s', 'r'), CheckWinCondition('s', 'r'));
+class ClientCommunicationTest : public ::testing::Test
+{
+protected:
+    ClientCommunication* clientComm;
+
+    virtual void SetUp() override
+    {
+        clientComm = new ClientCommunication(g_port, g_baudRate);
+
+        ASSERT_NE(clientComm->GethSerial(), INVALID_HANDLE_VALUE)
+            << "Serial handle is invalid. Possibly COM port not found or busy.";
+    }
+
+    virtual void TearDown() override
+    {
+        delete clientComm;
+    }
+};
+
+TEST_F(ClientCommunicationTest, ReceiveMessageManVSAITest)
+{
+    clientComm->sendMessage("1r");
+
+    std::vector<std::string> response = clientComm->receiveMessage();
+
+    ASSERT_EQ(response.size(), 3);
+
+    EXPECT_FALSE(response[0].empty()) << "First part of the message is empty!";
+    EXPECT_FALSE(response[1].empty()) << "Second part of the message is empty!";
+    EXPECT_FALSE(response[2].empty()) << "Third part of the message is empty!";
 }
 
-// Тест функції ManVsManHandle
-TEST(ServerLogicTests, ManVsManHandleTests) {
-    // Перевіряємо тільки чи обгортка правильно передає аргументи
-    EXPECT_STREQ(ManVsManHandle('r', 'r'), CheckWinCondition('r', 'r'));
-    EXPECT_STREQ(ManVsManHandle('p', 'r'), CheckWinCondition('p', 'r'));
-    EXPECT_STREQ(ManVsManHandle('s', 'p'), CheckWinCondition('s', 'p'));
+TEST_F(ClientCommunicationTest, ReceiveMessageManVSManTest)
+{
+    clientComm->sendMessage("2rp");
+
+    std::vector<std::string> response = clientComm->receiveMessage();
+
+    ASSERT_EQ(response.size(), 3);
+
+    EXPECT_FALSE(response[0].empty()) << "First part of the message is empty!";
+    EXPECT_FALSE(response[1].empty()) << "Second part of the message is empty!";
+    EXPECT_FALSE(response[2].empty()) << "Third part of the message is empty!";
 }
 
-// Тест функції AIVsAIHandle
-TEST(ServerLogicTests, AIVsAIHandleTests) {
-    // Перевіряємо тільки чи обгортка правильно передає аргументи
-    EXPECT_STREQ(AIVsAIHandle('r', 'p'), CheckWinCondition('r', 'p'));
-    EXPECT_STREQ(AIVsAIHandle('p', 's'), CheckWinCondition('p', 's'));
-    EXPECT_STREQ(AIVsAIHandle('s', 'r'), CheckWinCondition('s', 'r'));
+TEST_F(ClientCommunicationTest, ReceiveMessageAIVSAITest)
+{
+    clientComm->sendMessage("3");
+
+    std::vector<std::string> response = clientComm->receiveMessage();
+
+    ASSERT_EQ(response.size(), 3);
+
+    EXPECT_FALSE(response[0].empty()) << "First part of the message is empty!";
+    EXPECT_FALSE(response[1].empty()) << "Second part of the message is empty!";
+    EXPECT_FALSE(response[2].empty()) << "Third part of the message is empty!";
 }
 
-int main(int argc, char** argv) {
+TEST_F(ClientCommunicationTest, SendMessageTest)
+{
+    std::string testMessage = "1p";
+
+    clientComm->sendMessage(testMessage);
+
+    ASSERT_NE(clientComm->GethSerial(), INVALID_HANDLE_VALUE);
+}
+
+TEST(ClientCommunicationNoFixtureTest, MultipleConnectionsTest)
+{
+    {
+        ClientCommunication comm1(g_port, g_baudRate);
+        EXPECT_NE(comm1.GethSerial(), INVALID_HANDLE_VALUE);
+    }
+    {
+        ClientCommunication comm2(g_port, g_baudRate);
+        EXPECT_NE(comm2.GethSerial(), INVALID_HANDLE_VALUE);
+    }
+}
+
+int main(int argc, char** argv) 
+{
+    parseCommandLineArgs(argc, argv);
+    std::wcout << L"COMPort" << g_port << std::endl;
+    std::cout << "BaudRate" << g_baudRate << std::endl;
     ::testing::InitGoogleTest(&argc, argv);
     int result = RUN_ALL_TESTS();
     std::cout << "Test run completed with result code: " << result << std::endl;

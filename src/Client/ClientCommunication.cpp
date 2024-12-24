@@ -14,6 +14,14 @@ ClientCommunication::ClientCommunication(int BaudRate)
     }
 }
 
+ClientCommunication::ClientCommunication(std::wstring portName, int BaudRate)
+{
+    hSerial = setupSerial(portName, BaudRate);
+    if (hSerial == INVALID_HANDLE_VALUE) {
+        std::cerr << "[ERROR] Failed to initialize serial communication." << std::endl;
+    }
+}
+
 // Destructor
 ClientCommunication::~ClientCommunication() 
 {
