@@ -9,13 +9,7 @@ private:
     std::wstring portName;     /**< Name of the COM port */
     int baudRate;              /**< Communication baud rate */
 
-    /**
-    * @brief Reads the configured COM port from a configuration file.
-    *
-    * @param configFile Path to the configuration file containing port settings.
-    * @return The name of the Arduino COM port as a wide string.
-    */
-    std::wstring readArduinoCOMPort(const std::wstring& configFile);
+    
 public:
     /**
     * @brief Constructor that initializes the serial communication with the specified baud rate.
@@ -23,6 +17,8 @@ public:
     * @param BaudRate The baud rate for serial communication.
     */
     ClientCommunication(int BaudRate);
+
+    ClientCommunication(std::wstring portName, int BaudRate);
 
     /**
      * @brief Destructor to close the serial port and clean up resources.
@@ -59,4 +55,12 @@ public:
      * @return The handle to the serial port.
      */
     HANDLE GethSerial();
+
+    /**
+    * @brief Reads the configured COM port from a configuration file.
+    *
+    * @param configFile Path to the configuration file containing port settings.
+    * @return The name of the Arduino COM port as a wide string.
+    */
+    std::wstring readArduinoCOMPort(const std::wstring& configFile);
 };
